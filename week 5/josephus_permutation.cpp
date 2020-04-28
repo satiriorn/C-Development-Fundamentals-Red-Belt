@@ -4,16 +4,25 @@
 #include <iterator>
 #include <numeric>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
 template <typename RandomIt>
 void MakeJosephusPermutation(RandomIt first, RandomIt last, uint32_t step_size) {
-  vector<typename RandomIt::value_type> pool(first, last);
-  for(size_t cur_pos = 0;!pool.empty();cur_pos = (cur_pos + step_size - 1) % pool.size()){
-	*(first++) = pool[cur_pos];
-    pool.erase(pool.begin() + cur_pos);
-  }
+    queue<typename RandomIt::value_type> pool;
+    for (auto i = first; i != last; i++) 
+        pool.push(move(*i));
+
+    for (int i = 0; !pool.empty(); ++i) {
+        if (i % step_size != 0) {
+            pool.push(move(pool.front()));
+            pool.pop();
+        } else {
+            *(first++) = move(pool.front());
+            pool.pop();
+        }
+    }
 }
 
 vector<int> MakeTestVector() {
