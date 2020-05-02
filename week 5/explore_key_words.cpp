@@ -27,7 +27,6 @@ std::vector<std::string> SplitIntoWords(const std::string& line){
     std::string::const_iterator it1 = line.cbegin();
     std::string::const_iterator it2 = std::find(it1, line.cend(), ' ');
     result.reserve(2000000u);
-
     while (it2 != line.cend()){
         result.push_back(std::string(it1, it2));
         it1 = std::next(it2);
